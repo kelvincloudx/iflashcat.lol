@@ -1,0 +1,196 @@
+---
+---
+
+<section class="section section-traffic-compare">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">流量机制剖析</span>
+      <h2>月度流量与年度总流量说明</h2>
+      <p>
+        深入解析闪电猫公开套餐中的两大截然不同的流量扣减机制，助您按需选配，避免浪费或中途断网。
+      </p>
+    </div>
+
+    <div class="traffic-compare-grid">
+      <!-- Model 1: Monthly 30-day reset -->
+      <div class="compare-card">
+        <div class="card-type-tag">模式一 · 周期循环</div>
+        <h3 class="compare-title">每30天定期重置流量机制</h3>
+        <p class="compare-lead">
+          代表套餐：<strong>迷你猫 (100G)</strong>、<strong>闪电猫 (200G)</strong>、<strong>霹雳猫 (500G)</strong>、<strong>雷神猫 (1000G)</strong>、<strong>特惠年付小包 (50G)</strong>
+        </p>
+
+        <ul class="compare-feature-list">
+          <li>
+            <strong>自动归零刷新：</strong>每隔 30 天为一个完整的计算周期，周期到达时已用流量清零，并恢复为预设上限。
+          </li>
+          <li>
+            <strong>不可滚存结转：</strong>当期内未使用完毕的剩余流量将在重置时刻失效，不会自动滚存或累加至下一个周期。
+          </li>
+          <li>
+            <strong>提前耗尽限制：</strong>若在第 15 天就用完了当期 100% 流量，节点服务将暂停，需等待下个 30 天周期或在后台增购临时流量。
+          </li>
+          <li>
+            <strong>最适合人群：</strong>每个月有持续、规律上网需求的上班族、留学生、稳定跨境办公团队。
+          </li>
+        </ul>
+      </div>
+
+      <!-- Model 2: Annual Total Traffic -->
+      <div class="compare-card highlight-card">
+        <div class="card-type-tag total-tag">模式二 · 弹性总量</div>
+        <h3 class="compare-title">年度总流量弹性消耗机制</h3>
+        <p class="compare-lead">
+          代表套餐：<strong>流星猫 (600G/年)</strong>、<strong>飞天猫 (5000G/年)</strong>
+        </p>
+
+        <ul class="compare-feature-list">
+          <li>
+            <strong>全年总额一次注入：</strong>开通后系统一次性分配整年总配额（如 600GB 或 5000GB），服务有效期长达 365 天。
+          </li>
+          <li>
+            <strong>用完为止不按月清零：</strong>不存在每 30 天强制清空的规则。您可以在单月消耗 150GB，也可以在某个月仅消耗 5GB。
+          </li>
+          <li>
+            <strong>自主调配峰谷：</strong>完全适应季节性业务。出差、大促或项目集训期可高频集中使用，淡季休假期间流量安然保留。
+          </li>
+          <li>
+            <strong>最适合人群：</strong>需求波动大、特定月份需要爆发性用量、或仅需长期低频备用应急的专业用户。
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Comparative Matrix Table -->
+    <div class="data-table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>对比维度</th>
+            <th>常规每30天重置套餐</th>
+            <th>年度总流量套餐（流星猫 / 飞天猫）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>配额发放方式</strong></td>
+            <td>每个周期（30天）发放单月额度</td>
+            <td>365 天服务开通时一次性全额发放</td>
+          </tr>
+          <tr>
+            <td><strong>未用流量处理</strong></td>
+            <td>周期结束自动作废清零，不顺延</td>
+            <td>365 天内持续有效，直至耗尽或到期</td>
+          </tr>
+          <tr>
+            <td><strong>单价折算（每GB）</strong></td>
+            <td>长周期年付下折算单价极低（月均稳定）</td>
+            <td>固定总量结算（流星猫约 ¥0.43/G，飞天猫约 ¥0.36/G）</td>
+          </tr>
+          <tr>
+            <td><strong>短时间爆发大用量</strong></td>
+            <td>受限于单月额度上限，易提前用尽</td>
+            <td>无月度上限，支持单月快速消耗大量数据</td>
+          </tr>
+          <tr>
+            <td><strong>典型选购建议</strong></td>
+            <td>日常有固定办公、查资料或视频需求的首选</td>
+            <td>出差多、季度集中使用、或作为多设备备选通道</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-traffic-compare {
+    background-color: #F8FAFC;
+    padding: 80px 0;
+  }
+
+  .traffic-compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+
+  .compare-card {
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: 34px 28px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .compare-card.highlight-card {
+    border-color: rgba(34, 211, 238, 0.4);
+    box-shadow: 0 4px 20px rgba(34, 211, 238, 0.1);
+    background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+  }
+
+  .card-type-tag {
+    align-self: flex-start;
+    padding: 4px 10px;
+    background: rgba(124, 58, 237, 0.1);
+    color: var(--color-aurora-purple);
+    font-size: 0.78rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 14px;
+  }
+
+  .total-tag {
+    background: rgba(14, 165, 233, 0.12);
+    color: #0284C7;
+  }
+
+  .compare-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+    color: var(--color-midnight);
+  }
+
+  .compare-lead {
+    font-size: 0.92rem;
+    color: var(--color-text-dark);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border-light);
+    line-height: 1.5;
+  }
+
+  .compare-feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .compare-feature-list li {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #334155;
+    position: relative;
+    padding-left: 18px;
+  }
+
+  .compare-feature-list li::before {
+    content: "•";
+    position: absolute;
+    left: 4px;
+    color: var(--color-aurora-purple);
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  @media (max-width: 820px) {
+    .traffic-compare-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

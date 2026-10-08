@@ -1,0 +1,899 @@
+---
+import { siteConfig } from '../data/site';
+import { 
+  regularPlans, 
+  specialAnnualPlan, 
+  annualTotalTrafficPlans,
+  cycleLabels,
+  type BillingCycle 
+} from '../data/plans';
+
+interface Props {
+  showTitle?: boolean;
+}
+
+const { showTitle = true } = Astro.props;
+---
+
+<section id="pricing" class="section section-pricing">
+  <div class="container">
+    {showTitle && (
+      <div class="section-header">
+        <span class="section-tag">套餐方案与价格</span>
+        <h2>闪电猫 SpeedCAT 公开参考套餐表</h2>
+        <p>
+          汇集公开网络整理的 7 种套餐规格，包含 4 档常规周期套餐、特惠小包与 2 款年度总流量套餐，涵盖全部 19 个价格选项。
+        </p>
+      </div>
+    )}
+
+    <!-- Top Disclaimer -->
+    <div class="disclaimer-box" role="alert">
+      <div class="disclaimer-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <strong>重要参考提示：</strong>
+      </div>
+      <p>{siteConfig.pricingDisclaimer}</p>
+    </div>
+
+    <!-- Regular Plans Cycle Selector -->
+    <div class="pricing-controls">
+      <div class="cycle-tabs-container">
+        <span class="cycle-selector-label">选择常规套餐结算周期：</span>
+        <div class="cycle-tabs" role="tablist" aria-label="付款周期切换">
+          <button class="cycle-tab active" data-cycle="monthly" role="tab" aria-selected="true">
+            月付 <span class="tab-sub">按30天结算</span>
+          </button>
+          <button class="cycle-tab" data-cycle="quarterly" role="tab" aria-selected="false">
+            季付 <span class="tab-sub">一次付整季</span>
+          </button>
+          <button class="cycle-tab" data-cycle="semi-annual" role="tab" aria-selected="false">
+            半年付 <span class="tab-sub">一次付半年</span>
+          </button>
+          <button class="cycle-tab" data-cycle="annual" role="tab" aria-selected="false">
+            年付 <span class="tab-sub">一次付整年</span>
+          </button>
+        </div>
+      </div>
+      <p class="cycle-note-inline">
+        注：季付、半年付、年付金额为对应周期的<strong>单次实际支付总额</strong>，非按月分摊扣费。
+      </p>
+    </div>
+
+    <!-- Regular 4 Plans Cards Grid -->
+    <div class="plans-grid">
+      {regularPlans.map(plan => (
+        <div class={`plan-card ${plan.badge ? 'featured' : ''}`} data-plan-id={plan.id}>
+          {plan.badge && <span class="card-badge">{plan.badge}</span>}
+          <div class="card-header">
+            <h3 class="plan-name">{plan.name}</h3>
+            <p class="plan-scenario">{plan.scenario}</p>
+          </div>
+
+          <div class="card-price-block">
+            <div class="price-display">
+              <span class="currency">¥</span>
+              <span class="amount" data-price-monthly={plan.prices.monthly} data-price-quarterly={plan.prices.quarterly} data-price-semi-annual={plan.prices['semi-annual']} data-price-annual={plan.prices.annual}>
+                {plan.prices.monthly}
+              </span>
+              <span class="period" data-period-text> / 30天（月付）</span>
+            </div>
+            <div class="price-desc-line" data-price-desc>
+              实际支付：¥{plan.prices.monthly} / 每次
+            </div>
+          </div>
+
+          <div class="card-traffic-block">
+            <div class="traffic-item">
+              <span class="traffic-label">流量配额：</span>
+              <strong class="traffic-val">{plan.trafficLimit}</strong>
+            </div>
+            <div class="traffic-item">
+              <span class="traffic-label">重置规则：</span>
+              <span class="traffic-rule">{plan.trafficResetRule}</span>
+            </div>
+          </div>
+
+          <ul class="plan-features">
+            <li>
+              <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>{plan.features.lineType}</span>
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>{plan.features.aiSupport}</span>
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>{plan.features.mediaSupport}</span>
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>{plan.features.nodeCoverage}</span>
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+              <span>{plan.features.clientCompatibility}</span>
+            </li>
+          </ul>
+
+          <div class="verification-badge">
+            <span class="v-tag">状态说明</span>
+            <span class="v-text">{plan.verificationStatus}</span>
+          </div>
+
+          <div class="card-action">
+            <a 
+              href={siteConfig.affUrl} 
+              target={siteConfig.affTarget} 
+              rel={siteConfig.affRel} 
+              class={`btn ${plan.badge ? 'btn-cyan' : 'btn-outline-dark'} plan-btn`}
+            >
+              {siteConfig.affButtonText}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17L17 7"/>
+                <path d="M7 7h10v10"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Special Annual & Annual Total Volume Section -->
+    <div class="special-plans-section">
+      <div class="special-header">
+        <h3 class="special-title">特惠年付与年度总流量方案（共3款专属规格）</h3>
+        <p class="special-subtitle">针对低频备用或非月度固定清零用户的公开参考规格</p>
+      </div>
+
+      <div class="special-grid">
+        <!-- 1: Special Annual Small Pack -->
+        <div class="special-card">
+          <div class="special-badge">特惠档位</div>
+          <h4 class="special-card-name">{specialAnnualPlan.name}</h4>
+          <div class="special-price">
+            <span class="price-num">¥{specialAnnualPlan.price}</span>
+            <span class="price-cycle"> / 年（年付一次性结清）</span>
+          </div>
+          <div class="special-quota">
+            <strong>流量额度：</strong> {specialAnnualPlan.trafficLimit}
+          </div>
+          <p class="special-rule"><strong>流量规则：</strong> {specialAnnualPlan.trafficResetRule}</p>
+          <p class="special-scenario"><strong>适用场景：</strong> {specialAnnualPlan.scenario}</p>
+          
+          <div class="special-note-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            <span>{specialAnnualPlan.note}</span>
+          </div>
+
+          <a 
+            href={siteConfig.affUrl} 
+            target={siteConfig.affTarget} 
+            rel={siteConfig.affRel} 
+            class="btn btn-primary special-btn"
+          >
+            {siteConfig.affButtonText}
+          </a>
+        </div>
+
+        <!-- 2: Meteor Cat 600GB -->
+        {annualTotalTrafficPlans.map(plan => (
+          <div class="special-card">
+            <div class="special-badge total-badge">{plan.badge}</div>
+            <h4 class="special-card-name">{plan.name}</h4>
+            <div class="special-price">
+              <span class="price-num">¥{plan.price}</span>
+              <span class="price-cycle"> / 年（有效期365天）</span>
+            </div>
+            <div class="special-quota">
+              <strong>流量额度：</strong> {plan.trafficLimit}
+            </div>
+            <p class="special-rule"><strong>流量规则：</strong> {plan.trafficResetRule}</p>
+            <p class="special-scenario"><strong>适用场景：</strong> {plan.scenario}</p>
+
+            <div class="special-note-box total-note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="16" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12.01" y2="8"/>
+              </svg>
+              <span>{plan.note}</span>
+            </div>
+
+            <a 
+              href={siteConfig.affUrl} 
+              target={siteConfig.affTarget} 
+              rel={siteConfig.affRel} 
+              class="btn btn-outline-dark special-btn"
+            >
+              {siteConfig.affButtonText}
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Complete 19 Prices Verification Table (Static Accessible) -->
+    <div class="static-table-section">
+      <h3 class="table-section-title">全站 7 种套餐与 19 个价格选项完整汇总核对表</h3>
+      <p class="table-section-desc">
+        无论终端脚本加载状态如何，您均可在此完整查阅所有 19 个价格选项、周期折合逻辑与核验状态：
+      </p>
+
+      <div class="data-table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>套餐类型</th>
+              <th>套餐名称</th>
+              <th>流量额度与重置规则</th>
+              <th>付款周期</th>
+              <th>结算价格</th>
+              <th>折合单月成本说明</th>
+              <th>在售核查状态</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 4 regular plans * 4 cycles = 16 options -->
+            <tr>
+              <td rowspan="4">常规月度重置</td>
+              <td rowspan="4"><strong>迷你猫</strong></td>
+              <td rowspan="4">100GB / 每30天<br><small>每30天自动重置</small></td>
+              <td>月付（按月付）</td>
+              <td><strong>¥20</strong></td>
+              <td>¥20.00 / 30天</td>
+              <td rowspan="4">公开资料整理，待官方后台实时核验</td>
+            </tr>
+            <tr>
+              <td>季付（按季一次付）</td>
+              <td><strong>¥57</strong></td>
+              <td>折合约 ¥19.00 / 月（一次付 ¥57）</td>
+            </tr>
+            <tr>
+              <td>半年付（按半年一次付）</td>
+              <td><strong>¥108</strong></td>
+              <td>折合约 ¥18.00 / 月（一次付 ¥108）</td>
+            </tr>
+            <tr>
+              <td>年付（按年一次付）</td>
+              <td><strong>¥192</strong></td>
+              <td>折合约 ¥16.00 / 月（一次付 ¥192）</td>
+            </tr>
+
+            <tr>
+              <td rowspan="4">常规月度重置</td>
+              <td rowspan="4"><strong>闪电猫</strong></td>
+              <td rowspan="4">200GB / 每30天<br><small>每30天自动重置</small></td>
+              <td>月付（按月付）</td>
+              <td><strong>¥40</strong></td>
+              <td>¥40.00 / 30天</td>
+              <td rowspan="4">公开资料整理，待官方后台实时核验</td>
+            </tr>
+            <tr>
+              <td>季付（按季一次付）</td>
+              <td><strong>¥114</strong></td>
+              <td>折合约 ¥38.00 / 月（一次付 ¥114）</td>
+            </tr>
+            <tr>
+              <td>半年付（按半年一次付）</td>
+              <td><strong>¥216</strong></td>
+              <td>折合约 ¥36.00 / 月（一次付 ¥216）</td>
+            </tr>
+            <tr>
+              <td>年付（按年一次付）</td>
+              <td><strong>¥384</strong></td>
+              <td>折合约 ¥32.00 / 月（一次付 ¥384）</td>
+            </tr>
+
+            <tr>
+              <td rowspan="4">常规月度重置</td>
+              <td rowspan="4"><strong>霹雳猫</strong></td>
+              <td rowspan="4">500GB / 每30天<br><small>每30天自动重置</small></td>
+              <td>月付（按月付）</td>
+              <td><strong>¥100</strong></td>
+              <td>¥100.00 / 30天</td>
+              <td rowspan="4">公开资料整理，待官方后台实时核验</td>
+            </tr>
+            <tr>
+              <td>季付（按季一次付）</td>
+              <td><strong>¥285</strong></td>
+              <td>折合约 ¥95.00 / 月（一次付 ¥285）</td>
+            </tr>
+            <tr>
+              <td>半年付（按半年一次付）</td>
+              <td><strong>¥540</strong></td>
+              <td>折合约 ¥90.00 / 月（一次付 ¥540）</td>
+            </tr>
+            <tr>
+              <td>年付（按年一次付）</td>
+              <td><strong>¥960</strong></td>
+              <td>折合约 ¥80.00 / 月（一次付 ¥960）</td>
+            </tr>
+
+            <tr>
+              <td rowspan="4">常规月度重置</td>
+              <td rowspan="4"><strong>雷神猫</strong></td>
+              <td rowspan="4">1000GB / 每30天<br><small>每30天自动重置</small></td>
+              <td>月付（按月付）</td>
+              <td><strong>¥200</strong></td>
+              <td>¥200.00 / 30天</td>
+              <td rowspan="4">公开资料整理，待官方后台实时核验</td>
+            </tr>
+            <tr>
+              <td>季付（按季一次付）</td>
+              <td><strong>¥570</strong></td>
+              <td>折合约 ¥190.00 / 月（一次付 ¥570）</td>
+            </tr>
+            <tr>
+              <td>半年付（按半年一次付）</td>
+              <td><strong>¥1080</strong></td>
+              <td>折合约 ¥180.00 / 月（一次付 ¥1080）</td>
+            </tr>
+            <tr>
+              <td>年付（按年一次付）</td>
+              <td><strong>¥1920</strong></td>
+              <td>折合约 ¥160.00 / 月（一次付 ¥1920）</td>
+            </tr>
+
+            <!-- 1 Special Annual Plan = 1 option -->
+            <tr class="highlight-row">
+              <td>特惠年付档位</td>
+              <td><strong>特惠年付小包</strong></td>
+              <td>50GB / 每30天<br><small>每30天重置50GB</small></td>
+              <td>年付（一次付整年）</td>
+              <td><strong>¥98</strong></td>
+              <td>年付一次结清（非每月 ¥98）</td>
+              <td><strong>待核实</strong>：该特惠档当前是否仍在售尚未核实</td>
+            </tr>
+
+            <!-- 2 Annual Total Plans = 2 options -->
+            <tr>
+              <td rowspan="2">年度总流量型</td>
+              <td><strong>流星猫</strong></td>
+              <td>全年总计 600GB<br><small>有效期365天，用完为止不按月重置</small></td>
+              <td>年付（365天）</td>
+              <td><strong>¥260</strong></td>
+              <td>全年总额 600GB，折合约 ¥0.43/GB</td>
+              <td>公开资料整理，待官方后台实时核验</td>
+            </tr>
+            <tr>
+              <td><strong>飞天猫</strong></td>
+              <td>全年总计 5000GB<br><small>有效期365天，用完为止不按月重置</small></td>
+              <td>年付（365天）</td>
+              <td><strong>¥1800</strong></td>
+              <td>全年总额 5000GB，折合约 ¥0.36/GB</td>
+              <td>公开资料整理，待官方后台实时核验</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bottom Disclaimer -->
+    <div class="disclaimer-box" role="alert">
+      <div class="disclaimer-header">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <strong>价格与渠道提示：</strong>
+      </div>
+      <p>{siteConfig.pricingDisclaimer}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Dynamic switcher for regular plans
+  const cycleButtons = document.querySelectorAll('.cycle-tab');
+  const planCards = document.querySelectorAll('.plan-card');
+
+  const cycleDetails: Record<string, { periodText: string; descPrefix: string }> = {
+    monthly: {
+      periodText: ' / 30天（月付）',
+      descPrefix: '按30天单月结算，一次付 ¥'
+    },
+    quarterly: {
+      periodText: ' / 季（季付总额）',
+      descPrefix: '按季度一次性结清，实付 ¥'
+    },
+    'semi-annual': {
+      periodText: ' / 半年（半年付总额）',
+      descPrefix: '按半年一次性结清，实付 ¥'
+    },
+    annual: {
+      periodText: ' / 年（年付总额）',
+      descPrefix: '按整年一次性结清，实付 ¥'
+    }
+  };
+
+  cycleButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cycle = btn.getAttribute('data-cycle') || 'monthly';
+
+      // Update active state
+      cycleButtons.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+
+      // Update prices on all regular plan cards
+      planCards.forEach(card => {
+        const amountEl = card.querySelector('.amount') as HTMLElement;
+        const periodEl = card.querySelector('[data-period-text]') as HTMLElement;
+        const descEl = card.querySelector('[data-price-desc]') as HTMLElement;
+
+        if (amountEl && periodEl && descEl) {
+          let price = '0';
+          if (cycle === 'monthly') price = amountEl.getAttribute('data-price-monthly') || '0';
+          else if (cycle === 'quarterly') price = amountEl.getAttribute('data-price-quarterly') || '0';
+          else if (cycle === 'semi-annual') price = amountEl.getAttribute('data-price-semi-annual') || '0';
+          else if (cycle === 'annual') price = amountEl.getAttribute('data-price-annual') || '0';
+
+          amountEl.textContent = price;
+          const info = cycleDetails[cycle];
+          if (info) {
+            periodEl.textContent = info.periodText;
+            descEl.textContent = `${info.descPrefix}${price}（绝非每月此价格）`;
+          }
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .section-pricing {
+    background-color: #F8FAFC;
+    padding: 80px 0;
+  }
+
+  .disclaimer-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #B45309;
+  }
+
+  .pricing-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    gap: 12px;
+  }
+
+  .cycle-tabs-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .cycle-selector-label {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-midnight);
+  }
+
+  .cycle-tabs {
+    display: inline-flex;
+    background: #E2E8F0;
+    padding: 4px;
+    border-radius: var(--radius-lg);
+    gap: 4px;
+  }
+
+  .cycle-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 18px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1.2;
+  }
+
+  .cycle-tab .tab-sub {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .cycle-tab:hover {
+    color: var(--color-aurora-purple);
+  }
+
+  .cycle-tab.active {
+    background: #FFFFFF;
+    color: var(--color-aurora-purple);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .cycle-tab.active .tab-sub {
+    color: var(--color-aurora-purple);
+  }
+
+  .cycle-note-inline {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  /* Regular 4 Plans Grid */
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  .plan-card {
+    position: relative;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: 30px 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .plan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .plan-card.featured {
+    border-color: var(--color-aurora-purple);
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.12);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--color-aurora-purple) 0%, #6D28D9 100%);
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+  }
+
+  .card-header {
+    margin-bottom: 20px;
+  }
+
+  .plan-name {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--color-midnight);
+    margin-bottom: 6px;
+  }
+
+  .plan-scenario {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    min-height: 40px;
+  }
+
+  .card-price-block {
+    background: #F8FAFC;
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .price-display {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+  }
+
+  .currency {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-midnight);
+  }
+
+  .amount {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--color-midnight);
+    line-height: 1;
+  }
+
+  .period {
+    font-size: 0.82rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .price-desc-line {
+    font-size: 0.75rem;
+    color: #64748B;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  .card-traffic-block {
+    border-top: 1px dashed var(--color-border-light);
+    border-bottom: 1px dashed var(--color-border-light);
+    padding: 14px 0;
+    margin-bottom: 20px;
+  }
+
+  .traffic-item {
+    font-size: 0.88rem;
+    margin-bottom: 4px;
+  }
+
+  .traffic-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .traffic-label {
+    color: var(--color-text-muted);
+  }
+
+  .traffic-val {
+    color: var(--color-aurora-purple);
+    font-weight: 700;
+  }
+
+  .traffic-rule {
+    font-size: 0.82rem;
+    color: #475569;
+  }
+
+  .plan-features {
+    list-style: none;
+    margin-bottom: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .plan-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--color-text-dark);
+    line-height: 1.4;
+  }
+
+  .check-icon {
+    width: 16px;
+    height: 16px;
+    color: #10B981;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .verification-badge {
+    background: #F1F5F9;
+    border-radius: var(--radius-sm);
+    padding: 8px 10px;
+    font-size: 0.75rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .v-tag {
+    display: inline-block;
+    font-weight: 700;
+    color: #475569;
+    margin-right: 4px;
+  }
+
+  .v-text {
+    color: #64748B;
+  }
+
+  .card-action .plan-btn {
+    width: 100%;
+  }
+
+  /* Special Plans Section */
+  .special-plans-section {
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-xl);
+    padding: 40px;
+    margin-bottom: 60px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .special-header {
+    text-align: center;
+    max-width: 650px;
+    margin: 0 auto 36px;
+  }
+
+  .special-title {
+    font-size: 1.6rem;
+    color: var(--color-midnight);
+    margin-bottom: 8px;
+  }
+
+  .special-subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+  }
+
+  .special-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .special-card {
+    background: #F8FAFC;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: 28px 22px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .special-badge {
+    align-self: flex-start;
+    padding: 3px 10px;
+    background: #FEF3C7;
+    color: #B45309;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    margin-bottom: 12px;
+  }
+
+  .total-badge {
+    background: #DBEAFE;
+    color: #1D4ED8;
+  }
+
+  .special-card-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .special-price {
+    margin-bottom: 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .price-num {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--color-midnight);
+  }
+
+  .price-cycle {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .special-quota {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: var(--color-aurora-purple);
+  }
+
+  .special-rule, .special-scenario {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: #475569;
+  }
+
+  .special-note-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #92400E;
+    margin-top: auto;
+    margin-bottom: 20px;
+  }
+
+  .total-note {
+    background: #EFF6FF;
+    border-color: #BFDBFE;
+    color: #1E40AF;
+  }
+
+  .special-btn {
+    width: 100%;
+  }
+
+  /* Complete Static Table Section */
+  .static-table-section {
+    margin-bottom: 40px;
+  }
+
+  .table-section-title {
+    font-size: 1.45rem;
+    margin-bottom: 8px;
+  }
+
+  .table-section-desc {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+  }
+
+  .highlight-row {
+    background-color: #FFFDF5;
+  }
+
+  @media (max-width: 1120px) {
+    .plans-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .special-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .plans-grid {
+      grid-template-columns: 1fr;
+    }
+    .special-plans-section {
+      padding: 24px 16px;
+    }
+    .cycle-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 100%;
+    }
+  }
+</style>

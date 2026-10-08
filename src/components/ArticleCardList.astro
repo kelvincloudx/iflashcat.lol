@@ -1,0 +1,185 @@
+---
+import { articles } from '../data/articles';
+
+interface Props {
+  limit?: number;
+  showTitle?: boolean;
+}
+
+const { limit = 7, showTitle = true } = Astro.props;
+const displayArticles = articles.slice(0, limit);
+---
+
+<section id="guides-list" class="section section-alt section-articles">
+  <div class="container">
+    {showTitle && (
+      <div class="section-header">
+        <span class="section-tag">技术深度专栏</span>
+        <h2>闪电猫 SpeedCAT 专属原创指南</h2>
+        <p>
+          围绕套餐选择、付款周期、订阅安全、设备适配与连接排查，提供全面客观的中文知识体系。
+        </p>
+      </div>
+    )}
+
+    <div class="articles-grid">
+      {displayArticles.map((article, index) => (
+        <article class="article-card">
+          <div class="card-meta">
+            <span class="card-category">{article.category}</span>
+            <span class="card-read-time">{article.readTime}</span>
+          </div>
+
+          <h3 class="card-title">
+            <a href={`/guides/${article.slug}/`}>
+              {article.title}
+            </a>
+          </h3>
+
+          <p class="card-summary">
+            {article.summary}
+          </p>
+
+          <div class="card-footer">
+            <div class="card-date">发布于 {article.date}</div>
+            <a href={`/guides/${article.slug}/`} class="card-read-link">
+              阅读全文
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="articles-center-action">
+      <a href="/guides/" class="btn btn-outline-dark">
+        浏览全部 7 篇指南专栏
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-articles {
+    background-color: #FFFFFF;
+    padding: 80px 0;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+
+  .article-card {
+    background: #F8FAFC;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(124, 58, 237, 0.3);
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .card-category {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--color-aurora-purple);
+    background: rgba(124, 58, 237, 0.08);
+    padding: 3px 10px;
+    border-radius: 9999px;
+  }
+
+  .card-read-time {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .card-title {
+    font-size: 1.18rem;
+    font-weight: 700;
+    line-height: 1.45;
+    margin-bottom: 12px;
+    color: var(--color-midnight);
+  }
+
+  .card-title a {
+    color: inherit;
+  }
+
+  .card-title a:hover {
+    color: var(--color-aurora-purple);
+  }
+
+  .card-summary {
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .card-date {
+    font-size: 0.8rem;
+    color: #94A3B8;
+  }
+
+  .card-read-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--color-aurora-purple);
+  }
+
+  .card-read-link:hover {
+    color: #5B21B6;
+    gap: 7px;
+  }
+
+  .articles-center-action {
+    text-align: center;
+  }
+
+  @media (max-width: 1024px) {
+    .articles-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

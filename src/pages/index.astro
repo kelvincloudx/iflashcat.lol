@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ServiceIntro from '../components/ServiceIntro.astro';
+import PricingSection from '../components/PricingSection.astro';
+import TrafficCompare from '../components/TrafficCompare.astro';
+import ClientSetupEntry from '../components/ClientSetupEntry.astro';
+import ConnectionBasics from '../components/ConnectionBasics.astro';
+import ArticleCardList from '../components/ArticleCardList.astro';
+import UserConcerns from '../components/UserConcerns.astro';
+import FaqSection from '../components/FaqSection.astro';
+import { faqList } from '../data/faqs';
+import { siteConfig } from '../data/site';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqList.map(faq => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+};
+---
+
+<BaseLayout
+  title={siteConfig.title}
+  description={siteConfig.description}
+  canonicalPath="/"
+  jsonLd={faqSchema}
+>
+  <!-- 1. Hero Section -->
+  <Hero />
+
+  <!-- 2. SpeedCAT Service Info & Background -->
+  <ServiceIntro />
+
+  <!-- 3. Complete Pricing Section (7 Plans, 19 Prices) -->
+  <PricingSection />
+
+  <!-- 4. Monthly vs Annual Total Traffic Explanation -->
+  <TrafficCompare />
+
+  <!-- 5. Client Setup & Subscription Entry Points -->
+  <ClientSetupEntry />
+
+  <!-- 6. Node Connection Basics -->
+  <ConnectionBasics />
+
+  <!-- 7. Seven Exclusive Original Guide Articles -->
+  <ArticleCardList />
+
+  <!-- 8. User Evaluation Concerns -->
+  <UserConcerns />
+
+  <!-- 9. Ten Comprehensive FAQs (Default Expanded) -->
+  <FaqSection />
+</BaseLayout>
