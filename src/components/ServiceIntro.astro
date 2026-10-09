@@ -79,21 +79,6 @@ import { siteConfig } from '../data/site';
         <span class="intro-card-tag">资料核验状态：客户端分流特性</span>
       </div>
     </div>
-
-    <div class="intro-bottom-banner">
-      <div class="banner-text">
-        <h4>需要确认实时在售方案与网络质量？</h4>
-        <p>第三方资料存在信息滞后性，请通过指定服务入口查看最新实时货架，并建议优先从单月周期测试。</p>
-      </div>
-      <a 
-        href={siteConfig.affUrl} 
-        target={siteConfig.affTarget} 
-        rel={siteConfig.affRel} 
-        class="btn btn-cyan"
-      >
-        {siteConfig.affButtonText}
-      </a>
-    </div>
   </div>
 </section>
 
@@ -106,7 +91,7 @@ import { siteConfig } from '../data/site';
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
-    margin-bottom: 50px;
+    margin-bottom: 0;
   }
 
   .intro-card {
@@ -178,29 +163,6 @@ import { siteConfig } from '../data/site';
     display: inline-block;
   }
 
-  .intro-bottom-banner {
-    background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
-    border-radius: var(--radius-lg);
-    padding: 30px 40px;
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 30px;
-  }
-
-  .banner-text h4 {
-    color: #FFFFFF;
-    font-size: 1.25rem;
-    margin-bottom: 6px;
-  }
-
-  .banner-text p {
-    color: #CBD5E1;
-    font-size: 0.92rem;
-    margin: 0;
-  }
-
   @media (max-width: 1024px) {
     .intro-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -210,14 +172,6 @@ import { siteConfig } from '../data/site';
   @media (max-width: 768px) {
     .intro-grid {
       grid-template-columns: 1fr;
-    }
-    .intro-bottom-banner {
-      flex-direction: column;
-      text-align: left;
-      padding: 24px;
-    }
-    .intro-bottom-banner .btn {
-      width: 100%;
     }
   }
 </style>
