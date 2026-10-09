@@ -204,7 +204,7 @@ expectedPrices.forEach(item => {
 check('特惠年付小包 50GB/每30天 正确呈现', pricingContent.includes('50GB') && pricingContent.includes('每30天'));
 check('流星猫 600GB 全年总流量 正确呈现', pricingContent.includes('600GB') && pricingContent.includes('用完为止'));
 check('飞天猫 5000GB 全年总流量 正确呈现', pricingContent.includes('5000GB') && pricingContent.includes('用完为止'));
-check('价格免责声明存在', pricingContent.includes('本页面展示的是 SpeedCAT 公开参考套餐信息'));
+check('已按用户要求移除免责提示与待核实弹窗', !pricingContent.includes('本页面展示的是 SpeedCAT 公开参考套餐信息'));
 
 // 6. Check 7 Articles Character Count & Distinctiveness
 console.log('\n检查 7 篇原创文章字数 (800-1500) 与唯一性:');
